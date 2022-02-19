@@ -64,38 +64,38 @@
         @keyframes position {
             0% {
                 background-position: 
-                calc(var(--p) *  1) calc(var(--p) * 16), 
-                calc(var(--p) *  1) calc(var(--p) * 17), 
-                calc(var(--p) *  1) calc(var(--p) * 15), 
-                calc(var(--p) *  1) calc(var(--p) * 16);
+                calc(var(--p) *  2) calc(var(--p) * 16), 
+                calc(var(--p) *  2) calc(var(--p) * 17), 
+                calc(var(--p) *  2) calc(var(--p) * 15), 
+                calc(var(--p) *  2) calc(var(--p) * 16);
             }
             25% {
                 background-position: 
-                calc(var(--p) *  1) calc(var(--p) * 12), 
-                calc(var(--p) *  1) calc(var(--p) * 13), 
-                calc(var(--p) *  1) calc(var(--p) * 11), 
-                calc(var(--p) *  1) calc(var(--p) * 12);
+                calc(var(--p) *  2) calc(var(--p) * 12), 
+                calc(var(--p) *  2) calc(var(--p) * 13), 
+                calc(var(--p) *  2) calc(var(--p) * 11), 
+                calc(var(--p) *  2) calc(var(--p) * 12);
             }
             50% {
                 background-position: 
-                calc(var(--p) *  1) calc(var(--p) * 8), 
-                calc(var(--p) *  1) calc(var(--p) * 9), 
-                calc(var(--p) *  1) calc(var(--p) * 7), 
-                calc(var(--p) *  1) calc(var(--p) * 8);
+                calc(var(--p) *  2) calc(var(--p) * 8), 
+                calc(var(--p) *  2) calc(var(--p) * 9), 
+                calc(var(--p) *  2) calc(var(--p) * 7), 
+                calc(var(--p) *  2) calc(var(--p) * 8);
             }
             75% {
                 background-position: 
-                calc(var(--p) *  1) calc(var(--p) *  4), 
-                calc(var(--p) *  1) calc(var(--p) *  5), 
-                calc(var(--p) *  1) calc(var(--p) *  3), 
-                calc(var(--p) *  1) calc(var(--p) *  4);
+                calc(var(--p) *  2) calc(var(--p) *  4), 
+                calc(var(--p) *  2) calc(var(--p) *  5), 
+                calc(var(--p) *  2) calc(var(--p) *  3), 
+                calc(var(--p) *  2) calc(var(--p) *  4);
             }
             100% {    
                 background-position: 
-                calc(var(--p) *  1) calc(var(--p) *  0), 
-                calc(var(--p) *  1) calc(var(--p) *  1), 
-                calc(var(--p) *  1) calc(var(--p) * -1), 
-                calc(var(--p) *  1) calc(var(--p) *  0);
+                calc(var(--p) *  2) calc(var(--p) *  0), 
+                calc(var(--p) *  2) calc(var(--p) *  1), 
+                calc(var(--p) *  2) calc(var(--p) * -1), 
+                calc(var(--p) *  2) calc(var(--p) *  0);
             }
         }
         .top-img {
@@ -105,7 +105,10 @@
         }
         .top-img0 {
             padding: 10px 3px 0;
+            display: flex;
+            max-height: 40vw;
         }
+        .top-img0-gap { width: 6vw; }
         .top-title {
             color: white;
             font-size: 0.8rem;
@@ -133,7 +136,7 @@
             transform: translate(-50%, 0);
         }
         #city {
-            transform: translate(-425%, 0);
+            transform: translate(-465%, 0);
         }
 
         #time1 {
@@ -142,8 +145,7 @@
             position: absolute;
             bottom: 4.5vw;
             left: 9vw;
-            font-size: 3vw;
-            letter-spacing: .2vw;
+            font-size: 2vw;
         }
     </style>
 </head>
@@ -156,8 +158,12 @@
             <span id="time">02-02 21:56:04</span>
             <div class="top-img">
                 <span id="time1"></span>
-                <img src="./ykm00.png" />
-                <img src="./ykm01.png" class="top-img0" />
+                <img src="./ykm000.png" />
+                <div class="top-img0">
+                    <div><img src="./ykm_1.png" id="type" /></div>
+                    <div class="top-img0-gap"></div>
+                    <div><img src="./ykm_3.png" /></div>
+                </div>
             </div>
             <div class="top-title">依托全国一体化政务服务平台<br>实现跨省（区，市）数据共享和互通互认</div>
         </div>
@@ -235,17 +241,26 @@
     document.addEventListener('DOMContentLoaded', function () {
         setInterval(refresh, 1000);
 
-        var queryObj = Object.assign({ name: '吴*生', city: '深圳' }, queryParse(location.search));
+        var queryObj = Object.assign({ name: '吴*生', city: '深圳', type: 1 }, queryParse(location.search));
         var city = document.querySelector('#city');
         var name = document.querySelector('#name');
-        var nameStr = queryObj.name;
+        var type = document.querySelector('#type');
         
+        // 名字处理
+        var nameStr = queryObj.name;
         if (nameStr.length < 3) nameStr = nameStr.slice(0, 1) + '*';
         else nameStr = nameStr.slice(0, 1) + '*' + nameStr.slice(-1);
         name.innerText = nameStr;
+
+        // 城市处理
         city.innerText = queryObj.city;
+
+        // 城市处理
+        var aType = +queryObj.type;
+        if ([0, 1, 2].indexOf(aType) < 0) aType = 1;
+        type.src = ['./ykm_', aType, '.png'].join('');
     });
 
 </script>
 
-</html>;
+</html>
